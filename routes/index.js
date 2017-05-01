@@ -12,7 +12,7 @@ server.get('/zones/:zone_identifier/dns_records', controller.local.list_dns_reco
  * POST routes
  */
 
-server.post('/zones/:zone_identifier', controller.local.create_dns_record);
+server.post('/zones/:zone_identifier/dns_records', controller.local.create_dns_record);
 
 /*
  * POST routes

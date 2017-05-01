@@ -1,7 +1,7 @@
 {
-	"name": "keymaker",
+	"name": "Cloudflare-Heimdall",
 	"version": "1.0.0",
-	"description": "Proxy server for cloudflare, providing access control and record storage in MongoDB",
+	"description": "Proxy server for Cloudflare, providing access control and local record storage in MongoDB",
 	"main": "server.js",
 	"scripts": {
 		"test": "echo 'None provided'"
