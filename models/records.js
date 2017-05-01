@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose'),
-	  mongooseApiQuery = require('mongoose-api-query')
+	mongooseApiQuery = require('mongoose-api-query')
 
 const RecordsSchema = new mongoose.Schema({
 	_type: {
@@ -36,7 +36,9 @@ const RecordsSchema = new mongoose.Schema({
 	zone_name: {
 		type: String,
 	},
-}, { minimize: false });
+}, {
+	minimize: false
+});
 
 
 RecordsSchema.plugin(mongooseApiQuery)

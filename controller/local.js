@@ -1,8 +1,8 @@
 /**
  * Model Schema
  */
-const 	Records = require('../models/records')
-		errors	= require('restify-errors')
+const Records = require('../models/records')
+errors = require('restify-errors')
 
 function keyNamer(data) {
 	data._name = data.name;
@@ -15,43 +15,41 @@ function keyNamer(data) {
 }
 
 
-function Controller() {
+function Local() {
 	that = this;
 
-	that.list_dns_records = function(req, res, next) {
-		Records.apiQuery({zone_id: req.params.zone_identifier}, function(err, records) {
-			if (err) {
-				log.error(err)
-				return next(new errors.InvalidContentError(err.errors.name.message))
-			}
-			res.send(200)
-			next()
-		})
+	that.list_dns_records = function (req, res, next) {
+		Records.find({
+			zone_id: req.params.zone_identifier
+		}, function (err, docs) {
+			res.json(docs);
+		});
+
+		next()
 	};
 
-	that.create_dns_record = function(req, res, next){
+	that.create_dns_record = function (req, res, next) {
 		if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('type')) {
 			res.send(500, 'Missing properties')
 		} else {
 			let data = keyNamer(req.body || {})
 
+			data.zone_id = req.params.zone_identifier;
 
+			let record = new Records(data)
+			record.save(function (err) {
+				if (err) {
+					log.error(err)
+					return next(new errors.InternalError(err.message))
+					next()
+				}
 
-			// let record = new Records(data)
-			// record.save(function(err) {
-			// 	if (err) {
-			// 		log.error(err)
-			// 		return next(new errors.InternalError(err.message))
-			// 		next()
-			// 	}
-
-				res.send(data)
+				res.send(201, data)
 				next()
-//			})
+			})
 		}
 	}
 
-
 };
 
-module.exports = new Controller();
+module.exports = new Local();
